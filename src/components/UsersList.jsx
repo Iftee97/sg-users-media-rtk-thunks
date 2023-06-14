@@ -4,6 +4,7 @@ import { fetchUsers, addUser } from "../store"
 import { useThunk } from "../hooks/useThunk"
 import Skeleton from "./Skeleton"
 import Button from "./Button"
+import UsersListItem from "./UsersListItem"
 
 export default function UsersList() {
   const { data } = useSelector(state => state.users) // state.users: { data: [], isLoading: false, error: null }
@@ -42,11 +43,7 @@ export default function UsersList() {
           <Skeleton times={6} className="h-10 w-full" />
         ) : (
           data.map(user => (
-            <div key={user.id} className="mb-2 border rounded">
-              <div className="flex items-center justify-between p-2 cursor-pointer">
-                {user.name}
-              </div>
-            </div>
+            <UsersListItem key={user.id} user={user} />
           ))
         )
       )}

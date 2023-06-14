@@ -1,14 +1,6 @@
 {
   "users": [
     {
-      "name": "andrei",
-      "id": 1
-    },
-    {
-      "name": "myra",
-      "id": 2
-    },
-    {
       "name": "Mrs. Lila Smith",
       "id": 3
     },
@@ -21,7 +13,7 @@
       "id": 5
     },
     {
-      "name": "Damon Mosciski",
+      "name": "Bernard Grant",
       "id": 6
     }
   ],
