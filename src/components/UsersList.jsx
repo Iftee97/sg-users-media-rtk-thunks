@@ -1,52 +1,55 @@
 import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { fetchUsers, addUser } from "../store"
+import { useThunk } from "../hooks/useThunk"
 import Skeleton from "./Skeleton"
 import Button from "./Button"
 
 export default function UsersList() {
-  const dispatch = useDispatch()
-  const { data, isLoading, error } = useSelector(state => state.users) // { data: [], isLoading: false, error: null }
+  const { data } = useSelector(state => state.users) // state.users: { data: [], isLoading: false, error: null }
+
+  const [doFetchUsers, isLoadingUsers, loadingUsersError] = useThunk(fetchUsers)
+  const [doCreateUser, isCreatingUser, creatingUserError] = useThunk(addUser)
 
   useEffect(() => {
-    dispatch(fetchUsers())
-  }, [dispatch])
+    doFetchUsers()
+  }, [doFetchUsers])
 
-  if (isLoading) {
-    return <Skeleton times={6} className="h-10 w-full" />
+  function handleAddUser() {
+    doCreateUser()
   }
-
-  if (error) {
-    console.log('error: >>>>>>>', error)
-    return (
-      <div>
-        Error fetching data: {' '}
-        <span className="font-semibold">
-          {error.message}
-        </span>
-      </div>
-    )
-  }
-
-  const renderedUsers = data.map(user => (
-    <div key={user.id} className="mb-2 border rounded">
-      <div className="flex p-2 items-center justify-between cursor-pointer">
-        {user.name}
-      </div>
-    </div>
-  ))
 
   return (
     <>
-      <div className="flex flex-row justify-between m-3">
+      <div className="flex flex-row items-center justify-between m-3">
         <h1 className="m-2 text-xl">
           Users
         </h1>
-        <Button onClick={() => dispatch(addUser())}>
+        <Button loading={isCreatingUser} onClick={handleAddUser}>
           + Add user
         </Button>
+        {creatingUserError && <p>Error creating user</p>}
       </div>
-      {renderedUsers}
+      {loadingUsersError ? (
+        <div>
+          Error fetching data: {' '}
+          <span className="font-semibold">
+            {loadingUsersError.message}
+          </span>
+        </div>
+      ) : (
+        isLoadingUsers ? (
+          <Skeleton times={6} className="h-10 w-full" />
+        ) : (
+          data.map(user => (
+            <div key={user.id} className="mb-2 border rounded">
+              <div className="flex items-center justify-between p-2 cursor-pointer">
+                {user.name}
+              </div>
+            </div>
+          ))
+        )
+      )}
     </>
   )
 }
