@@ -1,7 +1,8 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchUsers } from "../store"
+import { fetchUsers, addUser } from "../store"
 import Skeleton from "./Skeleton"
+import Button from "./Button"
 
 export default function UsersList() {
   const dispatch = useDispatch()
@@ -12,12 +13,7 @@ export default function UsersList() {
   }, [dispatch])
 
   if (isLoading) {
-    return (
-      // <div className="text-center">
-      //   Loading...
-      // </div>
-      <Skeleton times={6} className="h-10 w-full" />
-    )
+    return <Skeleton times={6} className="h-10 w-full" />
   }
 
   if (error) {
@@ -32,9 +28,25 @@ export default function UsersList() {
     )
   }
 
-  return (
-    <div>
-      num of users: {data.length}
+  const renderedUsers = data.map(user => (
+    <div key={user.id} className="mb-2 border rounded">
+      <div className="flex p-2 items-center justify-between cursor-pointer">
+        {user.name}
+      </div>
     </div>
+  ))
+
+  return (
+    <>
+      <div className="flex flex-row justify-between m-3">
+        <h1 className="m-2 text-xl">
+          Users
+        </h1>
+        <Button onClick={() => dispatch(addUser())}>
+          + Add user
+        </Button>
+      </div>
+      {renderedUsers}
+    </>
   )
 }
