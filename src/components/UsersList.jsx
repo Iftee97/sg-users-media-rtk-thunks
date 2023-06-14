@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchUsers } from "../store"
+import Skeleton from "./Skeleton"
 
 export default function UsersList() {
   const dispatch = useDispatch()
@@ -12,9 +13,10 @@ export default function UsersList() {
 
   if (isLoading) {
     return (
-      <div className="text-center">
-        Loading...
-      </div>
+      // <div className="text-center">
+      //   Loading...
+      // </div>
+      <Skeleton times={6} className="h-10 w-full" />
     )
   }
 
