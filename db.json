@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "name": "andrei",
+      "age": "35",
+      "profession": "teacher",
+      "id": 1
+    },
+    {
+      "name": "myra",
+      "age": "27",
+      "profession": "swe",
+      "id": 2
+    },
+    {
+      "name": "json",
+      "age": "42",
+      "profession": "database admin",
+      "id": 3
+    }
+  ],
+  "albums": [],
+  "photos": []
+}
